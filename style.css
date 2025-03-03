@@ -1,1 +1,62 @@
 
+:root {
+  --main-color: #ff5678;
+  --secondary-color: #ff304f;
+  --heart-size: 20px;
+}
+body {
+  background: #ffccd5;
+  font-family: "Comic Sans MS", sans-serif;
+  color: var(--main-color);
+  text-align: center;
+  padding: 20px;
+  overflow: hidden; /* Prevent horizontal scroll */
+}
+h1 {
+  margin-top: 50px;
+}
+#message {
+  font-size: 2em;
+  margin-top: 20px;
+  opacity: 0; /* Start hidden */
+  transition: opacity 1s ease-in-out; /* Fade in  using javascript*/
+}
+
+
+.heart {
+  position: absolute;
+  width: var(--heart-size);
+  height: var(--heart-size);
+  background: red;
+  transform: rotate(45deg);
+  animation: fall 2.5s linear infinite;
+}
+.heart:before,
+.heart:after {
+  content: "";
+  position: absolute;
+  width: var(--heart-size);
+  height: var(--heart-size);
+
+  background: red;
+  border-radius: 50%;
+}
+.heart:before {
+  top: calc(-1 * var(--heart-size) / 2);
+  left: 0;
+}
+.heart:after {
+  top: 0;
+  left: calc(-1 * var(--heart-size) / 2);
+}
+@keyframes fall {
+  0% {
+    top: -50px;
+    opacity: 1;
+  }
+  100% {
+    top: 100vh;
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+}
