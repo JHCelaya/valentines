@@ -12,22 +12,27 @@ const buttonContainer = document.querySelector(".btn-container");
 const yesButtonStyle = window.getComputedStyle(yesButton);
 const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
 
+// Ensure the scroll GIF element exists
+const scrollGif = document.getElementById("scroll-img"); 
+const questionContainer = document.getElementById("question-container");
 
-// Force the scroll GIF to be visible
+// Show the scroll GIF and hide question section
 scrollGif.style.display = "block"; 
-scrollGif.style.opacity = "1"; 
-scrollGif.style.visibility = "visible"; 
-
-// Hide the Yes/No buttons initially
 questionContainer.style.display = "none"; 
 
-// After animation plays (e.g., 4s), switch to Yes/No screen
+// Wait for the GIF to finish playing (~3-4 seconds depending on your GIF length)
 setTimeout(() => {
-    scrollGif.style.display = "none";  // Hide scroll GIF
+    // Stop the GIF by resetting its src
+    scrollGif.src = "assets/images/scroll-open.png"; // Replace with an image of the final frame
+}, 3000); // Adjust this time to match your GIF length
+
+// After another second, switch to the question screen
+setTimeout(() => {
+    scrollGif.style.display = "none";  // Hide the GIF
     questionContainer.style.display = "block"; // Show Yes/No section
 }, 4000);
 
-// array of gifs - in order
+
 const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
 // array of messages
 const buttonMessages = ["Are you sure??", "Pookie please", "Pookie PLEASE", "You can't do this to me!"];
