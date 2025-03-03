@@ -3,23 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>will you be my valentine?</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: pink;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Scroll Section */
+        .scroll-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .scroll {
+            width: 250px;
+            height: 100px;
+            background: #f5deb3;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .scroll.open {
+            height: 200px;
+            transition: height 0.5s ease;
+        }
+
+        .continue-btn {
+            display: none;
+            margin-top: 15px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            background: red;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        /* Valentine's Question Section */
+        .valentine-section {
+            display: none;
+            text-align: center;
+        }
+
+        .btn-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .yes-button, .no-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .yes-button {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .no-button {
+            background-color: #ccc;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Gif -->
-        <img src="assets/images/togepi-love.gif" id="togepi-gif" alt="a cute picture of togepi"/>
-        <!-- Question -->
-        <h1 id="message">
-        Will you be my Valentine? (˶ᵔ ᵕ ᵔ˶)
-        </h1>
-    </div>
-        <!-- Buttons -->
-        <div class="btn-container">
-            <button id="yes-btn"  onclick="window.location.href='yay.html'">Yes</button>
-            <button id="no-btn">No</button>
+
+    <!-- Scroll Message Section -->
+    <div class="scroll-container" onclick="openScroll()">
+        <div class="scroll">
+            Click to open the scroll!
         </div>
-    <script src="script.js"></script>
+        <button class="continue-btn" onclick="showValentineSection()">Continue</button>
+    </div>
+
+    <!-- Valentine's Question Section -->
+    <div class="valentine-section">
+        <h2>Will you be my Valentine? 💖</h2>
+        <img id="togepi-gif" src="assets/images/togepi-happy.gif" alt="Togepi">
+        <div class="btn-container">
+            <button class="yes-button" id="yes-btn">Yes!</button>
+            <button class="no-button" id="no-btn">No 😢</button>
+        </div>
+    </div>
+
+    <script>
+        let noClicks = 1;
+        const maxNoClicks = 4;
+        const minNoScale = 0.65;
+        let noScale = 1;
+        let yesScale = 1;
+        const gifElement = document.getElementById("togepi-gif");
+        const noButton = document.getElementById("no-btn");
+        const yesButton = document.getElementById("yes-btn");
+        const buttonContainer = document.querySelector(".btn-container");
+        const yesButtonStyle = window.getComputedStyle(yesButton);
+        const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
+        
+        const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
+        const buttonMessages = ["Are you sure??", "Pookie please", "Pookie PLEASE", "You can't do this to me!"];
+
+        function openScroll() {
+            const scroll = document.querySelector(".scroll");
+            scroll.textContent = "You are the most amazing person, and I want to ask you something important... 💌";
+            scroll.classList.add("open");
+            document.querySelector(".continue-btn").style.display = "block";
+        }
+
+        function showValentineSection() {
+            document.querySelector(".scroll-container").style.display = "none";
+            document.querySelector(".valentine-section").style.display = "block";
+        }
+
+        noButton.addEventListener("click", () => {
+            if (noClicks < maxNoClicks) {
+                gifElement.src = gifs[noClicks];
+            }
+
+            noButton.textContent = buttonMessages[noClicks % maxNoClicks];
+
+            noButton.style.width = 'auto';
+            noButton.style.width = `${noButton.scrollWidth}px`;
+
+            if (noScale > minNoScale) {
+                noScale -= 0.1;
+                noButton.style.transform = `scale(${noScale})`;
+            }
+
+            const baseWidth = parseFloat(yesButtonStyle.width);
+            const scaledWidth = baseWidth * yesScale;
+
+            if (scaledWidth < maxYesWidth) {
+                yesScale += 0.5;
+                yesButton.style.transform = `scale(${yesScale})`;
+            }
+
+            noClicks++;
+        });
+    </script>
+
 </body>
 </html>
