@@ -4,11 +4,23 @@ const minNoScale = 0.65;
 let noScale = 1;
 let yesScale = 1; // This now tracks the scaling factor directly
 const gifElement = document.getElementById("togepi-gif");
+const scrollGif = document.getElementById("scroll-img");
+const questionContainer = document.getElementById("question-container"); // Assuming this is where Yes/No buttons appear
 const noButton = document.getElementById("no-btn");
 const yesButton = document.getElementById("yes-btn");
 const buttonContainer = document.querySelector(".btn-container");
 const yesButtonStyle = window.getComputedStyle(yesButton);
 const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
+
+// Show the scroll GIF at first
+scrollGif.style.display = "block"; 
+questionContainer.style.display = "none"; // Hide the Yes/No section initially
+
+// Once the scroll animation plays, transition to the Yes/No question
+setTimeout(() => {
+    scrollGif.style.display = "none";  // Hide scroll after animation
+    questionContainer.style.display = "block"; // Show Yes/No section
+}, 4000); // Adjust timing based on scroll animation length
 
 // array of gifs - in order
 const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
