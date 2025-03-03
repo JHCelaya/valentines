@@ -35,8 +35,8 @@ scrollScreen.addEventListener("click", () => {
 
   // Wait for the scroll animation to finish, then transition to the Valentine's screen
   setTimeout(() => {
-    scrollScreen.classList.add("hidden");
-    valentineScreen.classList.remove("hidden");
+    scrollScreen.style.display = "none"; // Hide the scroll screen
+    valentineScreen.classList.remove("hidden"); // Show the Valentine's screen
     sendLove(); // Trigger the Valentine's confetti and message
   }, 3000); // Adjust timing based on your GIF duration
 });
