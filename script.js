@@ -28,15 +28,21 @@ function sendLove() {
 const scrollScreen = document.getElementById("scroll-screen");
 const valentineScreen = document.getElementById("valentine-screen");
 const scrollMessage = document.getElementById("scroll-message");
+const scrollVideo = document.getElementById("scroll-video");
+
+// Play the video once and pause at the end
+scrollVideo.addEventListener("ended", () => {
+  scrollVideo.pause(); // Pause the video when it ends
+});
 
 scrollScreen.addEventListener("click", () => {
   // Show the message inside the scroll
   scrollMessage.style.opacity = 1;
 
-  // Wait for the scroll animation to finish, then transition to the Valentine's screen
+  // Wait for a moment, then transition to the Valentine's screen
   setTimeout(() => {
     scrollScreen.style.display = "none"; // Hide the scroll screen
     valentineScreen.classList.remove("hidden"); // Show the Valentine's screen
     sendLove(); // Trigger the Valentine's confetti and message
-  }, 2000); // Adjust timing based on your GIF duration
+  }, 2000); // Adjust timing as needed
 });
