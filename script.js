@@ -1,83 +1,88 @@
-let noClicks = 1;
-const maxNoClicks = 4;
-const minNoScale = 0.65;
-let noScale = 1;
-let yesScale = 1; // This now tracks the scaling factor directly
-const gifElement = document.getElementById("togepi-gif");
-const scrollGif = document.getElementById("scroll-img");
-const questionContainer = document.getElementById("question-container"); // Assuming this is where Yes/No buttons appear
-const noButton = document.getElementById("no-btn");
-const yesButton = document.getElementById("yes-btn");
-const buttonContainer = document.querySelector(".btn-container");
-const yesButtonStyle = window.getComputedStyle(yesButton);
-const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
+document.addEventListener("DOMContentLoaded", () => {
+    let noClicks = 1;
+    const maxNoClicks = 4;
+    const minNoScale = 0.65;
+    let noScale = 1;
+    let yesScale = 1;
 
-// Ensure the scroll GIF element exists
-const scrollGif = document.getElementById("scroll-img"); 
-const questionContainer = document.getElementById("question-container");
+    // Select elements
+    const gifElement = document.getElementById("togepi-gif");
+    const scrollGif = document.getElementById("scroll-img");
+    const questionContainer = document.getElementById("question-container");
+    const noButton = document.getElementById("no-btn");
+    const yesButton = document.getElementById("yes-btn");
+    const buttonContainer = document.querySelector(".btn-container");
 
-// Show the scroll GIF and hide question section
-scrollGif.style.display = "block"; 
-questionContainer.style.display = "none"; 
+    // Get computed styles for scaling
+    const yesButtonStyle = window.getComputedStyle(yesButton);
+    const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
 
-// Wait for the GIF to finish playing (~3-4 seconds depending on your GIF length)
-setTimeout(() => {
-    // Stop the GIF by resetting its src
-    scrollGif.src = "assets/images/scroll-open.png"; // Replace with an image of the final frame
-}, 3000); // Adjust this time to match your GIF length
+    // GIFs for reactions
+    const gifs = [
+        "assets/images/togepi-happy.gif",
+        "assets/images/togepi-sad-1.gif",
+        "assets/images/togepi-sad-2.gif",
+        "assets/images/togepi-crying.gif"
+    ];
 
-// After another second, switch to the question screen
-setTimeout(() => {
-    scrollGif.style.display = "none";  // Hide the GIF
-    questionContainer.style.display = "block"; // Show Yes/No section
-}, 4000);
+    // Messages for "No" button
+    const buttonMessages = [
+        "Are you sure??",
+        "Pookie please",
+        "Pookie PLEASE",
+        "You can't do this to me!"
+    ];
 
+    // 🎀 Step 1: Show the scroll GIF, hide the question section initially
+    scrollGif.style.display = "block";
+    questionContainer.style.display = "none";
 
-const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
-// array of messages
-const buttonMessages = ["Are you sure??", "Pookie please", "Pookie PLEASE", "You can't do this to me!"];
+    // 🎀 Step 2: Stop GIF & Switch to Final Frame After Play (~3 sec)
+    setTimeout(() => {
+        scrollGif.src = "assets/images/scroll-open.png"; // Use a still image of the opened scroll
+    }, 3000);
 
-// no button clicked
-noButton.addEventListener("click", () => {
-    if (noClicks < maxNoClicks) {
-        // change image
-        gifElement.src = gifs[noClicks];
-    }
+    // 🎀 Step 3: After another second, show the question section
+    setTimeout(() => {
+        scrollGif.style.display = "none";
+        questionContainer.style.display = "block";
+    }, 4000);
 
-    // change no button text
-    noButton.textContent = buttonMessages[noClicks % maxNoClicks];
+    // 🎀 Step 4: Handle "No" button clicks
+    noButton.addEventListener("click", () => {
+        if (noClicks < maxNoClicks) {
+            // Update GIF
+            gifElement.src = gifs[noClicks];
+        }
 
-    // Adjust button width to fit text
-    noButton.style.width = 'auto';
-    noButton.style.width = `${noButton.scrollWidth}px`;
+        // Update "No" button text
+        noButton.textContent = buttonMessages[noClicks % maxNoClicks];
 
-    // decrease the size of the no button
-    if (noScale > minNoScale) {
-        noScale -= 0.1;
-        noButton.style.transform = `scale(${noScale})`;
-    }
+        // Adjust button width dynamically
+        noButton.style.width = 'auto';
+        noButton.style.width = `${noButton.scrollWidth}px`;
 
-    // Calculate the scaled width of the yesButton
-    const baseWidth = parseFloat(yesButtonStyle.width);
-    const scaledWidth = baseWidth * yesScale; // Reflects the actual visual size of the button
+        // Decrease "No" button size
+        if (noScale > minNoScale) {
+            noScale -= 0.1;
+            noButton.style.transform = `scale(${noScale})`;
+        }
 
-    console.log(`Scaled Width: ${scaledWidth}, Max Width: ${maxYesWidth}`);
+        // Increase "Yes" button size
+        const baseWidth = parseFloat(yesButtonStyle.width);
+        const scaledWidth = baseWidth * yesScale;
 
-    // Check if the scaled width is less than the max width
-    if (scaledWidth < maxYesWidth) {
-        yesScale += 0.5; // Increment scale by a smaller step
-        yesButton.style.transform = `scale(${yesScale})`;
+        if (scaledWidth < maxYesWidth) {
+            yesScale += 0.5;
+            yesButton.style.transform = `scale(${yesScale})`;
 
-        // Get the current gap scale factor from CSS
-        const rootStyles = getComputedStyle(document.documentElement);
-        const gapScaleFactor = parseFloat(rootStyles.getPropertyValue("--gap-scale-factor")) || 250;
+            // Dynamically adjust button spacing
+            const rootStyles = getComputedStyle(document.documentElement);
+            const gapScaleFactor = parseFloat(rootStyles.getPropertyValue("--gap-scale-factor")) || 250;
+            const currentGap = parseFloat(buttonContainer.style.gap) || 20;
+            buttonContainer.style.gap = `${Math.sqrt(currentGap * gapScaleFactor)}px`;
+        }
 
-        // Adjust the gap dynamically
-        const currentGap = parseFloat(buttonContainer.style.gap) || 20;
-        const newGap = Math.sqrt(currentGap * gapScaleFactor); // Scale based on the factor
-        buttonContainer.style.gap = `${newGap}px`;
-    }
-
-    // increment the number of clicks
-    noClicks++;
+        noClicks++;
+    });
 });
