@@ -3,46 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>Valentine’s Surprise</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: pink;
-            flex-direction: column;
-            font-family: Arial, sans-serif;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background-color: #ffe4e1;
         }
-        
-        /* Scroll Section */
+
         .scroll-container {
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
+            align-items: center;
             cursor: pointer;
-            position: relative;
+            margin-top: 100px;
         }
 
-        .scroll {
-            width: 250px;
-            height: 100px;
-            background: #f5deb3;
-            border-radius: 10px;
-            text-align: center;
-            padding: 20px;
+        .scroll-img {
+            width: 300px;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .scroll-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 18px;
             font-weight: bold;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .scroll.open {
-            height: 200px;
-            transition: height 0.5s ease;
+            text-align: center;
+            color: brown;
+            max-width: 250px;
         }
 
         .continue-btn {
@@ -57,109 +48,49 @@
             border-radius: 5px;
         }
 
-        /* Valentine's Question Section */
-        .valentine-section {
+        .hidden {
             display: none;
-            text-align: center;
-        }
-
-        .btn-container {
-            margin-top: 20px;
-            display: flex;
-            gap: 20px;
-        }
-
-        .yes-button, .no-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .yes-button {
-            background-color: #ff4d4d;
-            color: white;
-        }
-
-        .no-button {
-            background-color: #ccc;
         }
     </style>
 </head>
 <body>
 
-    <!-- Scroll Message Section -->
-    <div class="scroll-container" onclick="openScroll()">
-        <div class="scroll">
-            Click to open the scroll!
-        </div>
-        <button class="continue-btn" onclick="showValentineSection()">Continue</button>
+    <!-- Scroll Opening Section -->
+    <div id="scroll-section" class="scroll-container" onclick="openScroll()">
+        <img src="assets/images/scroll.png" class="scroll-img" id="scroll-img">
+        <div class="scroll-text" id="scroll-text">Click to open the scroll!</div>
+        <button class="continue-btn" id="continue-btn" onclick="showValentineSection()">Continue</button>
     </div>
 
-    <!-- Valentine's Question Section -->
-    <div class="valentine-section">
-        <h2>Will you be my Valentine? 💖</h2>
-        <img id="togepi-gif" src="assets/images/togepi-happy.gif" alt="Togepi">
+    <!-- Valentine Question Section (Initially Hidden) -->
+    <div id="valentine-section" class="hidden">
+        <h1>Will you be my Valentine? 💕</h1>
+        <img id="togepi-gif" src="assets/images/togepi-happy.gif" alt="Togepi GIF">
         <div class="btn-container">
-            <button class="yes-button" id="yes-btn">Yes!</button>
-            <button class="no-button" id="no-btn">No 😢</button>
+            <button id="yes-btn" onclick="showLoveMessage()">Yes 💖</button>
+            <button id="no-btn">No 😭</button>
         </div>
     </div>
 
     <script>
-        let noClicks = 1;
-        const maxNoClicks = 4;
-        const minNoScale = 0.65;
-        let noScale = 1;
-        let yesScale = 1;
-        const gifElement = document.getElementById("togepi-gif");
-        const noButton = document.getElementById("no-btn");
-        const yesButton = document.getElementById("yes-btn");
-        const buttonContainer = document.querySelector(".btn-container");
-        const yesButtonStyle = window.getComputedStyle(yesButton);
-        const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
-        
-        const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
-        const buttonMessages = ["Are you sure??", "Pookie please", "Pookie PLEASE", "You can't do this to me!"];
-
         function openScroll() {
-            const scroll = document.querySelector(".scroll");
-            scroll.textContent = "You are the most amazing person, and I want to ask you something important... 💌";
-            scroll.classList.add("open");
-            document.querySelector(".continue-btn").style.display = "block";
+            const scrollImg = document.getElementById("scroll-img");
+            const scrollText = document.getElementById("scroll-text");
+            const continueBtn = document.getElementById("continue-btn");
+
+            scrollImg.classList.add("open");
+            scrollText.textContent = "You are the most amazing person, and I have something important to ask! 💌";
+            continueBtn.style.display = "block";
         }
 
         function showValentineSection() {
-            document.querySelector(".scroll-container").style.display = "none";
-            document.querySelector(".valentine-section").style.display = "block";
+            document.getElementById("scroll-section").classList.add("hidden");
+            document.getElementById("valentine-section").classList.remove("hidden");
         }
 
-        noButton.addEventListener("click", () => {
-            if (noClicks < maxNoClicks) {
-                gifElement.src = gifs[noClicks];
-            }
-
-            noButton.textContent = buttonMessages[noClicks % maxNoClicks];
-
-            noButton.style.width = 'auto';
-            noButton.style.width = `${noButton.scrollWidth}px`;
-
-            if (noScale > minNoScale) {
-                noScale -= 0.1;
-                noButton.style.transform = `scale(${noScale})`;
-            }
-
-            const baseWidth = parseFloat(yesButtonStyle.width);
-            const scaledWidth = baseWidth * yesScale;
-
-            if (scaledWidth < maxYesWidth) {
-                yesScale += 0.5;
-                yesButton.style.transform = `scale(${yesScale})`;
-            }
-
-            noClicks++;
-        });
+        function showLoveMessage() {
+            alert("Yay! I love you! 💖💖💖");
+        }
     </script>
 
 </body>
