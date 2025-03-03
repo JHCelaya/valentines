@@ -38,5 +38,5 @@ scrollScreen.addEventListener("click", () => {
     scrollScreen.style.display = "none"; // Hide the scroll screen
     valentineScreen.classList.remove("hidden"); // Show the Valentine's screen
     sendLove(); // Trigger the Valentine's confetti and message
-  }, 3000); // Adjust timing based on your GIF duration
+  }, 2000); // Adjust timing based on your GIF duration
 });
