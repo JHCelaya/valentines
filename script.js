@@ -12,15 +12,20 @@ const buttonContainer = document.querySelector(".btn-container");
 const yesButtonStyle = window.getComputedStyle(yesButton);
 const maxYesWidth = parseFloat(yesButtonStyle.maxWidth);
 
-// Show the scroll GIF at first
-scrollGif.style.display = "block"; 
-questionContainer.style.display = "none"; // Hide the Yes/No section initially
 
-// Once the scroll animation plays, transition to the Yes/No question
+// Force the scroll GIF to be visible
+scrollGif.style.display = "block"; 
+scrollGif.style.opacity = "1"; 
+scrollGif.style.visibility = "visible"; 
+
+// Hide the Yes/No buttons initially
+questionContainer.style.display = "none"; 
+
+// After animation plays (e.g., 4s), switch to Yes/No screen
 setTimeout(() => {
-    scrollGif.style.display = "none";  // Hide scroll after animation
+    scrollGif.style.display = "none";  // Hide scroll GIF
     questionContainer.style.display = "block"; // Show Yes/No section
-}, 4000); // Adjust timing based on scroll animation length
+}, 4000);
 
 // array of gifs - in order
 const gifs = ["assets/images/togepi-happy.gif", "assets/images/togepi-sad-1.gif", "assets/images/togepi-sad-2.gif", "assets/images/togepi-crying.gif"];
