@@ -3,23 +3,12 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-function moveRandomEl(elm) {
-  elm.style.position = "absolute";
-  elm.style.top = Math.floor(Math.random() * 90 + 5) + "%";
-  elm.style.left = Math.floor(Math.random() * 90 + 5) + "%";
-}
-
-const moveRandom = document.querySelector("#move-random");
-
-moveRandom.addEventListener("mouseenter", function (e) {
-  moveRandomEl(e.target);
-});
-
 // Scroll Screen Logic
 const scrollScreen = document.getElementById("scroll-screen");
 const valentineScreen = document.getElementById("valentine-screen");
 const clickHere = document.getElementById("click-here");
 const scrollMessage = document.getElementById("scroll-message");
+const gifContainer = document.querySelector(".gif-container");
 
 let isFirstClick = true; // Track if it's the first click
 
@@ -33,6 +22,18 @@ scrollScreen.addEventListener("click", () => {
     // Second click: Hide the scroll screen and show the Valentine's screen
     scrollScreen.style.display = "none";
     valentineScreen.classList.remove("hidden");
-    sendLove(); // Trigger the Valentine's confetti and message
+    gifContainer.classList.remove("hidden"); // Show the GIF
   }
+});
+
+function moveRandomEl(elm) {
+  elm.style.position = "absolute";
+  elm.style.top = Math.floor(Math.random() * 90 + 5) + "%";
+  elm.style.left = Math.floor(Math.random() * 90 + 5) + "%";
+}
+
+const moveRandom = document.querySelector("#move-random");
+
+moveRandom.addEventListener("mouseenter", function (e) {
+  moveRandomEl(e.target);
 });

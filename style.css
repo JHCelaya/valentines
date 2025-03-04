@@ -6,7 +6,7 @@
 
 body {
   background: #ffccd5;
-  font-family: "Apple Chancery", cursive; /* Handwritten font */
+  font-family: "Apple Chancery", cursive;
   color: var(--main-color);
   text-align: center;
   padding: 20px;
@@ -33,6 +33,7 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  z-index: 2; /* Ensure scroll screen is above the background */
 }
 
 #scroll-container {
@@ -41,7 +42,7 @@ body {
 }
 
 #scroll-image {
-  width: 896px; /* Adjust based on your scroll PNG size */
+  width: 896px;
   height: 1152px;
 }
 
@@ -62,26 +63,47 @@ body {
   transform: translate(-50%, -50%);
   font-size: 1.2em;
   color: #000;
-  width: 55%; /* Adjust to fit within the scroll */
-  text-align: left; /* Align text to the left for a natural look */
-  line-height: 1.5; /* Improve readability */
-  padding: 20px; /* Add padding to keep text inside the scroll */
-  box-sizing: border-box; /* Ensure padding is included in width */
+  width: 55%;
+  text-align: left;
+  line-height: 1.5;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-#valentine-screen h1 {
-  margin-top: 50px;
+#valentine-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1; /* Ensure Valentine's screen is below the scroll screen */
 }
 
-#message {
-  font-size: 2em;
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 1s ease-in-out;
+.valentine-content {
+  position: relative;
+  z-index: 2; /* Ensure content is above the GIF */
+  text-align: center;
+}
+
+.gif-container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px; /* Adjust the size as needed */
+  height: auto;
+  z-index: 1; /* Place the GIF behind the content */
+}
+
+.gif-container.visible {
+  display: block; /* Show the GIF when this class is added */
 }
 
 .container .tenor-gif-embed {
-  max-width: 200px;
+  max-width: 100%; /* Ensure the GIF fits within the container */
 }
 
 .container .btn {
