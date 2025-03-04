@@ -12,19 +12,21 @@ const gifContainer = document.querySelector(".gif-container");
 
 let isFirstClick = true; // Track if it's the first click
 
-scrollScreen.addEventListener("click", () => {
-  if (isFirstClick) {
-    // First click: Show the message and hide "Click Here!"
-    clickHere.classList.add("hidden");
-    scrollMessage.classList.remove("hidden");
-    isFirstClick = false; // Update the state
-  } else {
-    // Second click: Hide the scroll screen and show the Valentine's screen
-    scrollScreen.style.display = "none";
-    valentineScreen.classList.remove("hidden");
-    gifContainer.classList.remove("hidden"); // Show the GIF
-  }
-});
+if (scrollScreen) {
+  scrollScreen.addEventListener("click", () => {
+    if (isFirstClick) {
+      // First click: Show the message and hide "Click Here!"
+      clickHere.classList.add("hidden");
+      scrollMessage.classList.remove("hidden");
+      isFirstClick = false; // Update the state
+    } else {
+      // Second click: Hide the scroll screen and show the Valentine's screen
+      scrollScreen.style.display = "none";
+      valentineScreen.classList.remove("hidden");
+      gifContainer.classList.remove("hidden"); // Show the GIF
+    }
+  });
+}
 
 function moveRandomEl(elm) {
   elm.style.position = "absolute";
@@ -34,6 +36,10 @@ function moveRandomEl(elm) {
 
 const moveRandom = document.querySelector("#move-random");
 
-moveRandom.addEventListener("mouseenter", function (e) {
-  moveRandomEl(e.target);
-});
+if (moveRandom) {
+  console.log("Move Random button found!"); // Debugging
+  moveRandom.addEventListener("mouseenter", function (e) {
+    console.log("Mouse entered!"); // Debugging
+    moveRandomEl(e.target);
+  });
+}
