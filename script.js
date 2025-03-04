@@ -3,46 +3,36 @@ function getQueryParam(param) {
   return urlParams.get(param);
 }
 
-function createHeart() {
-  const heart = document.createElement("div");
-  heart.classList.add("heart");
-  heart.style.left = Math.random() * 100 + "vw";
-  heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-  document.body.appendChild(heart);
-  setTimeout(() => heart.remove(), 5000);
+function moveRandomEl(elm) {
+  elm.style.position = "absolute";
+  elm.style.top = Math.floor(Math.random() * 90 + 5) + "%";
+  elm.style.left = Math.floor(Math.random() * 90 + 5) + "%";
 }
 
-function sendLove() {
-  const name = getQueryParam("name") || "Someone Special";
-  const message = document.getElementById("message");
-  message.innerHTML = `You're loved, ${name}! ❤️`;
-  message.style.opacity = 1;
+const moveRandom = document.querySelector("#move-random");
 
-  // Create confetti effect
-  for (let i = 0; i < 50; i++) {
-    setTimeout(createHeart, i * 100);
-  }
-}
+moveRandom.addEventListener("mouseenter", function (e) {
+  moveRandomEl(e.target);
+});
 
 // Scroll Screen Logic
 const scrollScreen = document.getElementById("scroll-screen");
 const valentineScreen = document.getElementById("valentine-screen");
+const clickHere = document.getElementById("click-here");
 const scrollMessage = document.getElementById("scroll-message");
-const scrollVideo = document.getElementById("scroll-video");
 
-// Play the video once and pause at the end
-scrollVideo.addEventListener("ended", () => {
-  scrollVideo.pause(); // Pause the video when it ends
-});
+let isFirstClick = true; // Track if it's the first click
 
 scrollScreen.addEventListener("click", () => {
-  // Show the message inside the scroll
-  scrollMessage.style.opacity = 1;
-
-  // Wait for a moment, then transition to the Valentine's screen
-  setTimeout(() => {
-    scrollScreen.style.display = "none"; // Hide the scroll screen
-    valentineScreen.classList.remove("hidden"); // Show the Valentine's screen
+  if (isFirstClick) {
+    // First click: Show the message and hide "Click Here!"
+    clickHere.classList.add("hidden");
+    scrollMessage.classList.remove("hidden");
+    isFirstClick = false; // Update the state
+  } else {
+    // Second click: Hide the scroll screen and show the Valentine's screen
+    scrollScreen.style.display = "none";
+    valentineScreen.classList.remove("hidden");
     sendLove(); // Trigger the Valentine's confetti and message
-  }, 2000); // Adjust timing as needed
+  }
 });

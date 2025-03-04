@@ -6,11 +6,11 @@
 
 body {
   background: #ffccd5;
-  font-family: "Comic Sans MS", sans-serif;
+  font-family: "Apple Chancery", cursive; /* Handwritten font */
   color: var(--main-color);
   text-align: center;
   padding: 20px;
-  overflow: hidden; /* Prevent horizontal scroll */
+  overflow: hidden;
   margin: 0;
   height: 100vh;
   display: flex;
@@ -28,11 +28,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(255, 204, 213, 0.9); /* Light pink background */
+  background: rgba(255, 204, 213, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer; /* Indicates it's clickable */
+  cursor: pointer;
 }
 
 #scroll-container {
@@ -40,9 +40,19 @@ body {
   text-align: center;
 }
 
-#scroll-video {
-  width: 300px; /* Adjust based on your video size */
-  height: auto;
+#scroll-image {
+  width: 896px; /* Adjust based on your scroll PNG size */
+  height: 1152px;
+}
+
+#click-here {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5em;
+  color: #000;
+  font-weight: bold;
 }
 
 #scroll-message {
@@ -50,10 +60,13 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 1.5em;
-  color: #000; /* Black text for contrast */
-  opacity: 0; /* Hidden initially */
-  transition: opacity 1s ease-in-out;
+  font-size: 1.2em;
+  color: #000;
+  width: 55%; /* Adjust to fit within the scroll */
+  text-align: left; /* Align text to the left for a natural look */
+  line-height: 1.5; /* Improve readability */
+  padding: 20px; /* Add padding to keep text inside the scroll */
+  box-sizing: border-box; /* Ensure padding is included in width */
 }
 
 #valentine-screen h1 {
@@ -63,47 +76,24 @@ body {
 #message {
   font-size: 2em;
   margin-top: 20px;
-  opacity: 0; /* Start hidden */
+  opacity: 0;
   transition: opacity 1s ease-in-out;
 }
 
-.heart {
-  position: absolute;
-  width: var(--heart-size);
-  height: var(--heart-size);
-  background: red;
-  transform: rotate(45deg);
-  animation: fall 2.5s linear infinite;
+.container .tenor-gif-embed {
+  max-width: 200px;
 }
 
-.heart:before,
-.heart:after {
-  content: "";
-  position: absolute;
-  width: var(--heart-size);
-  height: var(--heart-size);
-  background: red;
-  border-radius: 50%;
+.container .btn {
+  display: flex;
+  gap: 25px;
 }
 
-.heart:before {
-  top: calc(-1 * var(--heart-size) / 2);
-  left: 0;
-}
-
-.heart:after {
-  top: 0;
-  left: calc(-1 * var(--heart-size) / 2);
-}
-
-@keyframes fall {
-  0% {
-    top: -50px;
-    opacity: 1;
-  }
-  100% {
-    top: 100vh;
-    opacity: 0;
-    transform: rotate(90deg);
-  }
+.btn a {
+  text-decoration: none;
+  color: #111;
+  background: #fff;
+  padding: 10px 25px;
+  border-radius: 8px;
+  box-shadow: 0.5rem 1rem 3rem hsl(0, 0%, 0%, 0.3);
 }
